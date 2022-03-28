@@ -54,7 +54,7 @@ youtubeController.removeAll = function (req, res) {
 // update File path
 youtubeController.updatePath = function (req, res) {
     var path = req.body.path
-    Youtubefile.findByIdAndUpdate(req.params.id, {chord_path : path }, function(err, post) {
+    Youtubefile.findByIdAndUpdate(req.params.id, {file_path : path }, function(err, post) {
         if (err) {
             console.log(err);
         } else {

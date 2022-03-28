@@ -1,16 +1,33 @@
 var express = require('express');
 var router = express.Router();
 
-var youtubefile = require('../controllers/YoutubeController.js');
+var youtubeController = require('../controllers/YoutubeController.js');
+var YoutubeModel = require("../models/Youtubefile");
 
-router.get('/lists', youtubefile.list);
+router.get('/lists', youtubeController.list);
 
-router.post('/save', youtubefile.save);
+router.post('/save', youtubeController.save);
 
-router.get('/show/:token', youtubefile.show);
+router.post('/uploadUrl', function (req, res) {
+    console.log("body : ", req.body);
 
-router.get('/deleteAll', youtubefile.removeAll);
+    var youtubeModel = new YoutubeModel(req.body);
 
-router.put('/:id', youtubefile.updatePath);
+    youtubeModel.save(function (err) {
+        if (err) {
+            console.log(err);
+            res.status(404).send('Sorry cant find that!');
+        } else {
+            console.log(`youtube model : ${youtubeModel}`);
+            res.send();
+        }
+    });
+});
+
+router.get('/show/:token', youtubeController.show);
+
+router.get('/deleteAll', youtubeController.removeAll);
+
+router.put('/:id', youtubeController.updatePath);
 
 module.exports = router;
